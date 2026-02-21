@@ -49,6 +49,19 @@ FinSearch provides:
 ---
 
 ## How to Run Locally
+## Ollama AI (Local LLM) — Proposal Generation
+
+This demo uses **Ollama** to generate the job proposal on the Job Match screen.
+
+### Requirements
+- Ollama installed and running
+- A local model (recommended: `mistral`)
+- Node.js installed (to run the small bridge server)
+
+### Run Ollama
+```bash
+ollama pull mistral
+ollama list
 
 ### Option 1: VS Code Live Server (Recommended)
 1. Install the VS Code extension **Live Server**
