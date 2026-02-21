@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>FinSearch — Comparison</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Global CSS -->
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body class="page">
+
+  <!-- ================= NAVBAR ================= -->
+  <header class="navbar">
+    <div class="container inner">
+      <div class="brand">
+        <div class="brand-mark"></div>
+        <span>FinSearch</span>
+      </div>
+
+      <div class="nav-actions">
+        <a class="btn ghost" href="dashboard.html">Dashboard</a>
+        <a class="btn" href="job-match.html">Opportunities</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= COMPARISON ================= -->
+  <section class="section">
+    <div class="container" style="max-width: 1100px;">
+      <div class="space-between">
+        <div>
+          <h1 class="h2">Comparison</h1>
+          <p class="p mt-10">
+            FinSearch helps institutions understand ability through verified activity — regardless of starting context.
+          </p>
+        </div>
+        <span class="badge">Demo view</span>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Split Panels -->
+      <div class="grid grid-2">
+
+        <!-- Profile A (Gold) -->
+        <div class="card" style="
+          border-color: rgba(255,215,0,0.22);
+          background: radial-gradient(1200px 400px at 20% 0%, rgba(255,215,0,0.10), transparent 60%),
+                      linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+        ">
+          <div class="space-between">
+            <div>
+              <div class="h3" style="font-size:20px;">Alex</div>
+              <div class="small mt-10">17 • New York</div>
+            </div>
+            <span class="badge" style="border-color: rgba(255,215,0,0.35); background: rgba(255,215,0,0.08); color:#FFF6C7;">
+              Traditional advantage signals
+            </span>
+          </div>
+
+          <div class="divider"></div>
+
+          <p class="p">
+            Access to established networks, early exposure, and common legacy signals that institutions already understand.
+          </p>
+        </div>
+
+        <!-- Profile B (Green) -->
+        <div class="card glow">
+          <div class="space-between">
+            <div>
+              <div class="h3" style="font-size:20px;" id="bName">Priya</div>
+              <div class="small mt-10">17 • Mumbai</div>
+            </div>
+            <span class="badge">Verified proof pathway</span>
+          </div>
+
+          <div class="divider"></div>
+
+          <p class="p">
+            FinSearch builds visibility through verified work, reviews, and financial responsibility — turning effort into trusted data.
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Comparison Table -->
+      <div class="card simple mt-22">
+        <h3 class="h3">Signals Side-by-Side</h3>
+        <p class="p mt-10">
+          Rows appear one-by-one to highlight how proof can replace missing legacy signals.
+        </p>
+
+        <div class="divider"></div>
+
+        <table class="table" aria-label="comparison table">
+          <thead>
+            <tr>
+              <th>Signal</th>
+              <th>Alex</th>
+              <th id="bCol">Priya</th>
+            </tr>
+          </thead>
+          <tbody id="rows">
+            <!-- Animated rows inserted by JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Destinations -->
+      <div class="card glow mt-22 center" style="text-align:center;">
+        <h2 class="h2">Outcome Readiness (Demo)</h2>
+        <p class="p mt-16">
+          Different starting conditions. A shared destination — when institutions can trust verified proof.
+        </p>
+
+        <div class="grid grid-3 mt-22" style="width:100%;">
+          <div class="card simple">
+            <div class="h3" style="font-size:18px;">✅ Loan Application</div>
+            <p class="p mt-10">Eligibility based on readiness signals — not assumptions.</p>
+          </div>
+          <div class="card simple">
+            <div class="h3" style="font-size:18px;">✅ Internship Track</div>
+            <p class="p mt-10">Selection supported by verified work and reviews.</p>
+          </div>
+          <div class="card simple">
+            <div class="h3" style="font-size:18px;">✅ University Signal</div>
+            <p class="p mt-10">Institutions can recognize real-world capability.</p>
+          </div>
+        </div>
+
+        <div class="divider" style="max-width:520px;"></div>
+
+        <p class="h2" style="margin:0; font-size: clamp(22px, 2.4vw, 34px);">
+          Different paths. Same destination — with <span style="color:#00FF87;">verified proof</span>.
+        </p>
+
+        <div class="row mt-22" style="justify-content:center;">
+          <a class="btn" href="score-reveal.html">Back to Score</a>
+          <a class="btn primary" href="dashboard.html">Go to Dashboard →</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <script>
+    const user = JSON.parse(localStorage.getItem("finsearchUser")) || { name: "Priya" };
+    const score = parseInt(localStorage.getItem("finsearchScore") || "320", 10);
+
+    // Use real user name in the comparison right side
+    document.getElementById("bName").textContent = user.name || "Priya";
+    document.getElementById("bCol").textContent = user.name || "Priya";
+
+    // Rows data (business-safe framing)
+    const data = [
+      { signal: "Household Income Context", a: "$200,000/yr", b: "$3,000/yr (example)" },
+      { signal: "School Environment", a: "Private", b: "Government" },
+      { signal: "Professional Network", a: "47 industry contacts", b: "Starting from 0" },
+      { signal: "Legacy Credit Signals", a: "Family-linked history", b: "None" },
+      { signal: "Verified Work Record", a: "Informal / untracked", b: "Tracked on FinSearch" },
+      { signal: "FinSearch Score", a: "—", b: `${score} and growing` }
+    ];
+
+    // Animate rows in
+    const tbody = document.getElementById("rows");
+    tbody.innerHTML = "";
+
+    data.forEach((r, i) => {
+      setTimeout(() => {
+        const tr = document.createElement("tr");
+        tr.style.opacity = "0";
+        tr.style.transform = "translateY(8px)";
+        tr.style.transition = "opacity 450ms ease, transform 450ms ease";
+
+        tr.innerHTML = `
+          <td>${r.signal}</td>
+          <td>${r.a}</td>
+          <td>${r.b}</td>
+        `;
+        tbody.appendChild(tr);
+
+        requestAnimationFrame(() => {
+          tr.style.opacity = "1";
+          tr.style.transform = "translateY(0px)";
+        });
+      }, 250 * i);
+    });
+  </script>
+
+</body>
+</html>

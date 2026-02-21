@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>FinSearch — Your Score</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Global CSS -->
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body class="page">
+
+  <!-- ================= NAVBAR ================= -->
+  <header class="navbar">
+    <div class="container inner">
+      <div class="brand">
+        <div class="brand-mark"></div>
+        <span>FinSearch</span>
+      </div>
+      <div class="nav-actions">
+        <a class="btn ghost" href="../index.html">Home</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= SCORE REVEAL ================= -->
+  <section class="section center">
+    <div class="container" style="max-width: 920px;">
+
+      <!-- Intro text (reveals in sequence) -->
+      <div class="card simple center" style="text-align:center;">
+        <p class="p" id="line1" style="opacity:0; transition: opacity 700ms ease;">For the first time on FinSearch…</p>
+        <p class="h2 mt-16" id="line2" style="opacity:0; transition: opacity 700ms ease;">
+          you have a verified opportunity score.
+        </p>
+        <div class="divider" style="max-width:520px;"></div>
+
+        <!-- Score ring -->
+        <div class="center mt-22" style="gap:14px;">
+          <div class="score-ring anim-pop" aria-label="FinSearch Score">
+            <div>
+              <div class="val" id="scoreVal">0</div>
+              <div class="lbl">FinSearch Score</div>
+            </div>
+          </div>
+
+          <div class="small" id="levelText" style="opacity:0; transition: opacity 600ms ease;">
+            Level 1 — Foundation
+          </div>
+        </div>
+
+        <div class="row mt-22" style="justify-content:center;">
+          <button class="btn primary hidden" id="goBtn">Go to Dashboard →</button>
+        </div>
+      </div>
+
+      <!-- Unlocks -->
+      <div class="grid grid-3 mt-22 hidden" id="unlocks">
+
+        <div class="card simple">
+          <div class="space-between">
+            <div>
+              <div class="h3" style="font-size:18px;">🏦 Loan Readiness</div>
+              <div class="small mt-10">Target: 600+</div>
+            </div>
+            <span class="badge">Locked</span>
+          </div>
+
+          <div class="mt-16 progress">
+            <span id="p1"></span>
+          </div>
+          <p class="small mt-10" id="t1">0 / 600</p>
+        </div>
+
+        <div class="card simple">
+          <div class="space-between">
+            <div>
+              <div class="h3" style="font-size:18px;">💼 Internship Track</div>
+              <div class="small mt-10">Target: 450+</div>
+            </div>
+            <span class="badge">Locked</span>
+          </div>
+
+          <div class="mt-16 progress">
+            <span id="p2"></span>
+          </div>
+          <p class="small mt-10" id="t2">0 / 450</p>
+        </div>
+
+        <div class="card simple">
+          <div class="space-between">
+            <div>
+              <div class="h3" style="font-size:18px;">🎓 University Signal</div>
+              <div class="small mt-10">Target: 750+</div>
+            </div>
+            <span class="badge">Locked</span>
+          </div>
+
+          <div class="mt-16 progress">
+            <span id="p3"></span>
+          </div>
+          <p class="small mt-10" id="t3">0 / 750</p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <script>
+    // ---- Get stored data
+    const user = JSON.parse(localStorage.getItem("finsearchUser")) || { name: "Candidate" };
+    const payout = parseInt(localStorage.getItem("finsearchPayout") || "15", 10);
+
+    // ---- Score logic (demo, but consistent)
+    // Base score + payout influence (kept realistic)
+    const base = 280;
+    const bonus = Math.min(80, Math.floor(payout * 2)); // capped
+    const targetScore = base + bonus; // ex: 15 => 310
+    localStorage.setItem("finsearchScore", String(targetScore));
+
+    // ---- Reveal timing
+    const line1 = document.getElementById("line1");
+    const line2 = document.getElementById("line2");
+    const levelText = document.getElementById("levelText");
+    const unlocks = document.getElementById("unlocks");
+    const goBtn = document.getElementById("goBtn");
+
+    setTimeout(() => line1.style.opacity = 1, 250);
+    setTimeout(() => line2.style.opacity = 1, 950);
+
+    // ---- Animate score
+    function animateNumber(el, from, to, duration){
+      const start = performance.now();
+      function tick(now){
+        const t = Math.min(1, (now - start) / duration);
+        const val = Math.floor(from + (to - from) * t);
+        el.textContent = val.toString();
+        if (t < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }
+
+    // Start score after intro
+    setTimeout(() => {
+      animateNumber(document.getElementById("scoreVal"), 0, targetScore, 1400);
+    }, 1700);
+
+    // Show level text + unlocks
+    setTimeout(() => {
+      levelText.style.opacity = 1;
+      unlocks.classList.remove("hidden");
+      renderProgress(targetScore);
+    }, 3200);
+
+    // Show button
+    setTimeout(() => {
+      goBtn.classList.remove("hidden");
+    }, 3800);
+
+    // Button action
+    goBtn.addEventListener("click", () => {
+      window.location.href = "dashboard.html";
+    });
+
+    // ---- Progress helpers
+    function clamp01(x){ return Math.max(0, Math.min(1, x)); }
+
+    function setProgress(barId, textId, score, target){
+      const pct = clamp01(score / target) * 100;
+      document.getElementById(barId).style.width = pct.toFixed(0) + "%";
+      document.getElementById(textId).textContent = `${score} / ${target}`;
+    }
+
+    function renderProgress(score){
+      setProgress("p1", "t1", score, 600);
+      setProgress("p2", "t2", score, 450);
+      setProgress("p3", "t3", score, 750);
+    }
+  </script>
+
+</body>
+</html>

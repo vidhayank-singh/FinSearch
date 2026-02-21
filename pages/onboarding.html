@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>FinSearch — Create Your Account</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Global CSS -->
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body class="page">
+
+  <!-- ================= NAVBAR ================= -->
+  <header class="navbar">
+    <div class="container inner">
+      <div class="brand">
+        <div class="brand-mark"></div>
+        <span>FinSearch</span>
+      </div>
+      <div class="nav-actions">
+        <a class="btn ghost" href="../index.html">Back to Home</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= ONBOARDING ================= -->
+  <section class="section center">
+    <div class="container auth-shell">
+
+      <!-- LEFT INFO -->
+      <div class="card glow">
+        <span class="badge">Secure onboarding</span>
+        <h1 class="h2 mt-16">Create your FinSearch profile</h1>
+        <p class="p mt-16">
+          Your profile becomes a long-term professional and financial identity.
+          Information is verified to maintain trust and safety for all users.
+        </p>
+
+        <div class="divider"></div>
+
+        <ul class="small">
+          <li>✔ Identity-based access</li>
+          <li>✔ Age-appropriate safety checks</li>
+          <li>✔ Data visible only with permission</li>
+        </ul>
+      </div>
+
+      <!-- RIGHT FORM -->
+      <div class="card simple">
+        <h3 class="h3">Account details</h3>
+
+        <form id="signupForm" class="mt-22">
+
+          <div class="field">
+            <label class="label">Full Name</label>
+            <input class="input" type="text" id="name" required />
+          </div>
+
+          <div class="field mt-16">
+            <label class="label">Date of Birth</label>
+            <input class="input" type="date" id="dob" required />
+          </div>
+
+          <div class="field mt-16">
+            <label class="label">Gender</label>
+            <select class="select" id="gender">
+              <option value="">Prefer not to say</option>
+              <option>Female</option>
+              <option>Male</option>
+              <option>Non-binary</option>
+            </select>
+          </div>
+
+          <div class="field mt-16">
+            <label class="label">Email Address</label>
+            <input class="input" type="email" id="email" required />
+          </div>
+
+          <div class="field mt-16">
+            <label class="label">Password</label>
+            <input class="input" type="password" id="password" required />
+          </div>
+
+          <div class="field mt-16">
+            <label class="label">National ID Number</label>
+            <input class="input" type="text" id="nid" required />
+            <span class="helper">Required for verification and fraud prevention</span>
+          </div>
+
+          <div class="field mt-16">
+            <label class="label">Phone Number</label>
+            <input class="input" type="tel" id="phone" />
+            <span class="helper">Mandatory for users above 18</span>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="field">
+            <label>
+              <input type="checkbox" id="agree" required />
+              <span class="small">
+                I agree to FinSearch identity verification and safety review.
+              </span>
+            </label>
+          </div>
+
+          <button type="submit" class="btn primary block mt-22">
+            Create Account →
+          </button>
+
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SCRIPT ================= -->
+  <script>
+    // Basic onboarding demo logic
+    document.getElementById("signupForm").addEventListener("submit", function(e){
+      e.preventDefault();
+
+      const user = {
+        name: document.getElementById("name").value,
+        dob: document.getElementById("dob").value,
+        gender: document.getElementById("gender").value,
+        email: document.getElementById("email").value
+      };
+
+      localStorage.setItem("finsearchUser", JSON.stringify(user));
+
+      // Move to job matching demo
+      window.location.href = "job-match.html";
+    });
+  </script>
+
+</body>
+</html>

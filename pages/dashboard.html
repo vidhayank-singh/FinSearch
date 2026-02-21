@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>FinSearch — Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Global CSS -->
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body class="page">
+
+  <!-- ================= NAVBAR ================= -->
+  <header class="navbar">
+    <div class="container inner">
+      <div class="brand">
+        <div class="brand-mark"></div>
+        <span>FinSearch</span>
+      </div>
+
+      <div class="nav-actions">
+        <a class="btn ghost" href="../index.html">Home</a>
+        <a class="btn" href="comparison.html">Compare</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= APP SHELL ================= -->
+  <div class="app">
+
+    <!-- ========== SIDEBAR ========== -->
+    <aside class="sidebar">
+      <p class="side-title">Profile</p>
+
+      <div class="card simple">
+        <div class="space-between">
+          <div>
+            <div class="h3" style="font-size:18px;" id="userName">User</div>
+            <div class="small" id="userMeta">Verified profile</div>
+          </div>
+          <span class="badge">Active</span>
+        </div>
+
+        <div class="center mt-16">
+          <div class="score-ring">
+            <div>
+              <div class="val" id="scoreVal">0</div>
+              <div class="lbl">FinSearch Score</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-16">
+          <div class="small">Level</div>
+          <div class="h3" style="font-size:18px; margin-top:6px;" id="levelText">Foundation</div>
+        </div>
+      </div>
+
+      <div class="mt-22">
+        <p class="side-title">Navigation</p>
+        <div class="side-nav">
+          <a class="side-link active" href="dashboard.html">
+            <span>Dashboard</span><span class="small">•</span>
+          </a>
+          <a class="side-link" href="job-match.html">
+            <span>Opportunities</span><span class="small">Jobs</span>
+          </a>
+          <a class="side-link" href="comparison.html">
+            <span>Comparison</span><span class="small">Demo</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="mt-22">
+        <p class="side-title">Security</p>
+        <div class="card simple">
+          <p class="small">
+            Your identity signals are reviewed to maintain platform safety.
+            Some fields may require manual verification.
+          </p>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ========== MAIN CONTENT ========== -->
+    <main class="main">
+      <div class="space-between">
+        <div>
+          <h1 class="h2">Dashboard</h1>
+          <p class="p mt-10">Your verified profile, progress, and opportunity readiness — in one view.</p>
+        </div>
+        <div class="row">
+          <button class="btn" id="refreshBtn">Refresh Insights</button>
+          <a class="btn primary" href="job-match.html">Find Opportunities →</a>
+        </div>
+      </div>
+
+      <!-- TOP GRID -->
+      <div class="grid grid-2 mt-22">
+
+        <!-- NEWS / FEED -->
+        <div class="card simple">
+          <div class="space-between">
+            <h3 class="h3">Updates</h3>
+            <span class="small">Today</span>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="grid" style="gap:12px;" id="feed">
+            <!-- Feed items inserted by JS -->
+          </div>
+        </div>
+
+        <!-- NOTIFICATIONS -->
+        <div class="card simple">
+          <div class="space-between">
+            <h3 class="h3">Notifications</h3>
+            <span class="badge" id="notifCount">0 new</span>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="grid" style="gap:12px;" id="notifs">
+            <!-- Notifications inserted by JS -->
+          </div>
+        </div>
+
+      </div>
+
+      <!-- SCORE BREAKDOWN -->
+      <div class="card glow mt-22">
+        <div class="space-between">
+          <h3 class="h3">Score Breakdown</h3>
+          <span class="small">Signals update after each verified event</span>
+        </div>
+
+        <div class="grid grid-2 mt-22">
+          <div>
+            <p class="small">Work Reliability</p>
+            <div class="progress mt-10"><span id="b1"></span></div>
+            <p class="small mt-10" id="b1t">0/100</p>
+          </div>
+
+          <div>
+            <p class="small">Financial Decisions</p>
+            <div class="progress mt-10"><span id="b2"></span></div>
+            <p class="small mt-10" id="b2t">0/100</p>
+          </div>
+
+          <div>
+            <p class="small">Communication</p>
+            <div class="progress mt-10"><span id="b3"></span></div>
+            <p class="small mt-10" id="b3t">0/100</p>
+          </div>
+
+          <div>
+            <p class="small">Growth Rate</p>
+            <div class="progress mt-10"><span id="b4"></span></div>
+            <p class="small mt-10" id="b4t">0/100</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ELIGIBILITY + PROOF LOG -->
+      <div class="grid grid-2 mt-22">
+
+        <!-- Eligibility -->
+        <div class="card simple">
+          <h3 class="h3">Eligibility Readiness</h3>
+          <p class="p mt-10">
+            These are demo readiness tracks to show how institutions can evaluate progress.
+          </p>
+
+          <div class="mt-22">
+            <div class="space-between">
+              <div>
+                <div class="h3" style="font-size:16px;">🏦 Loan Track</div>
+                <div class="small">Target score: 600</div>
+              </div>
+              <div class="small" id="loanText">0 / 600</div>
+            </div>
+            <div class="progress mt-10"><span id="loanBar"></span></div>
+          </div>
+
+          <div class="mt-22">
+            <div class="space-between">
+              <div>
+                <div class="h3" style="font-size:16px;">💼 Internship Track</div>
+                <div class="small">Target score: 450</div>
+              </div>
+              <div class="small" id="internText">0 / 450</div>
+            </div>
+            <div class="progress mt-10"><span id="internBar"></span></div>
+          </div>
+
+          <div class="mt-22">
+            <div class="space-between">
+              <div>
+                <div class="h3" style="font-size:16px;">🎓 University Signal</div>
+                <div class="small">Target score: 750</div>
+              </div>
+              <div class="small" id="uniText">0 / 750</div>
+            </div>
+            <div class="progress mt-10"><span id="uniBar"></span></div>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="row">
+            <a class="btn" href="comparison.html">Compare Profiles</a>
+            <a class="btn primary" href="job-match.html">Improve Score →</a>
+          </div>
+        </div>
+
+        <!-- Proof / “Chain” Log -->
+        <div class="card simple">
+          <div class="space-between">
+            <h3 class="h3">Public Proof Log (Demo)</h3>
+            <span class="small">Immutable-style entries</span>
+          </div>
+          <p class="p mt-10">
+            This simulates a transparent verification ledger — showing what happened, when, and who confirmed it.
+          </p>
+
+          <div class="divider"></div>
+
+          <div class="grid" style="gap:12px;" id="ledger">
+            <!-- Ledger blocks inserted by JS -->
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="row">
+            <button class="btn" id="addBlockBtn">Add Demo Entry</button>
+            <span class="small">For hackathon showcase only</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- LEADERBOARD PREVIEW -->
+      <div class="card glow mt-22">
+        <div class="space-between">
+          <h3 class="h3">Leaderboard (Demo)</h3>
+          <span class="small">Ranking among similar profiles</span>
+        </div>
+
+        <table class="table mt-22" aria-label="leaderboard">
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Name</th>
+              <th>Region</th>
+              <th>Score</th>
+              <th>Focus</th>
+            </tr>
+          </thead>
+          <tbody id="leaderRows">
+            <!-- Rows inserted by JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <div class="mt-22">
+        <p class="small">FinSearch demo — front-end prototype for hackathon judging.</p>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    // ---------- Load core data ----------
+    const user = JSON.parse(localStorage.getItem("finsearchUser")) || { name: "Candidate", dob: "", email: "" };
+    const score = parseInt(localStorage.getItem("finsearchScore") || "320", 10);
+
+    document.getElementById("userName").textContent = user.name || "User";
+    document.getElementById("userMeta").textContent = user.email ? user.email : "Verified profile";
+    document.getElementById("scoreVal").textContent = String(score);
+
+    // ---------- Level system (designed for 50+ years) ----------
+    // Corporate framing: "tiers" not "game levels"
+    function getTier(s){
+      if (s < 450) return { name: "Foundation", note: "Early verified history" };
+      if (s < 600) return { name: "Momentum", note: "Consistent proof building" };
+      if (s < 750) return { name: "Established", note: "Institution-ready signals" };
+      if (s < 900) return { name: "Advanced", note: "High trust profile" };
+      return { name: "Elite", note: "Long-term excellence" };
+    }
+    const tier = getTier(score);
+    document.getElementById("levelText").textContent = tier.name;
+
+    // ---------- Feed + Notifs ----------
+    const feedItems = [
+      { title: "New opportunities available", body: "New tasks posted in content, design, and support roles." },
+      { title: "Score signals updated", body: "Your reliability and communication signals were refreshed after your latest completion." },
+      { title: "Finance insight", body: "Consistent saving behavior improves readiness for long-term offers." }
+    ];
+
+    const notifItems = [
+      { title: "Profile review queued", body: "Your verification may include a short manual review for safety." },
+      { title: "Institution visibility", body: "Demo: 3 employers viewed profiles at your current score band this week." }
+    ];
+
+    function renderList(containerId, items){
+      const el = document.getElementById(containerId);
+      el.innerHTML = "";
+      items.forEach(i => {
+        const card = document.createElement("div");
+        card.className = "card simple";
+        card.innerHTML = `
+          <div class="h3" style="font-size:16px;">${i.title}</div>
+          <p class="p mt-10">${i.body}</p>
+        `;
+        el.appendChild(card);
+      });
+    }
+
+    renderList("feed", feedItems);
+    renderList("notifs", notifItems);
+    document.getElementById("notifCount").textContent = `${notifItems.length} new`;
+
+    // ---------- Breakdown (demo but consistent) ----------
+    // Derive signal bars from score (stable, not random)
+    const reliability = Math.min(95, 60 + Math.floor(score / 20));
+    const finance = Math.min(92, 55 + Math.floor(score / 25));
+    const communication = Math.min(94, 58 + Math.floor(score / 22));
+    const growth = Math.min(90, 52 + Math.floor(score / 28));
+
+    function setBar(id, textId, value){
+      document.getElementById(id).style.width = value + "%";
+      document.getElementById(textId).textContent = `${value}/100`;
+    }
+    setBar("b1", "b1t", reliability);
+    setBar("b2", "b2t", finance);
+    setBar("b3", "b3t", communication);
+    setBar("b4", "b4t", growth);
+
+    // ---------- Eligibility ----------
+    function setTrack(barId, textId, s, target){
+      const pct = Math.max(0, Math.min(1, s/target)) * 100;
+      document.getElementById(barId).style.width = pct.toFixed(0) + "%";
+      document.getElementById(textId).textContent = `${s} / ${target}`;
+    }
+    setTrack("loanBar", "loanText", score, 600);
+    setTrack("internBar", "internText", score, 450);
+    setTrack("uniBar", "uniText", score, 750);
+
+    // ---------- Ledger (demo “chain”) ----------
+    const ledgerKey = "finsearchLedger";
+
+    function hashLike(text){
+      // Simple demo hash (NOT cryptographic). Looks like an on-chain id for UI.
+      let h = 0;
+      for (let i=0;i<text.length;i++) h = (h * 31 + text.charCodeAt(i)) >>> 0;
+      return "0x" + h.toString(16).padStart(8, "0");
+    }
+
+    function loadLedger(){
+      return JSON.parse(localStorage.getItem(ledgerKey) || "null") || [
+        { type: "Signup", by: "FinSearch Verification", city: "—", meta: "Profile created", ts: new Date().toISOString() },
+        { type: "Completion", by: "Employer Confirmation", city: "—", meta: "First job verified", ts: new Date().toISOString() }
+      ];
+    }
+
+    function saveLedger(list){
+      localStorage.setItem(ledgerKey, JSON.stringify(list));
+    }
+
+    function renderLedger(){
+      const list = loadLedger();
+      const el = document.getElementById("ledger");
+      el.innerHTML = "";
+
+      list.slice().reverse().slice(0, 6).forEach((b, idx) => {
+        const id = hashLike(b.type + b.by + b.ts + idx);
+        const item = document.createElement("div");
+        item.className = "card";
+        item.innerHTML = `
+          <div class="space-between">
+            <div class="h3" style="font-size:16px;">${b.type}</div>
+            <span class="small">${id}</span>
+          </div>
+          <p class="small mt-10">Verified by: ${b.by}</p>
+          <p class="p mt-10">${b.meta}</p>
+          <p class="small mt-10">${new Date(b.ts).toLocaleString()}</p>
+        `;
+        el.appendChild(item);
+      });
+    }
+
+    renderLedger();
+
+    document.getElementById("addBlockBtn").addEventListener("click", () => {
+      const list = loadLedger();
+      list.push({
+        type: "Signal Update",
+        by: "Automated Scoring Engine",
+        city: "—",
+        meta: "Score signals refreshed after recent activity",
+        ts: new Date().toISOString()
+      });
+      saveLedger(list);
+      renderLedger();
+      alert("Demo entry added to Proof Log.");
+    });
+
+    // ---------- Leaderboard (demo) ----------
+    const leaderboard = [
+      { name: "Aarav", region: "Delhi", score: 510, focus: "Design" },
+      { name: "Sara", region: "Bengaluru", score: 480, focus: "Content" },
+      { name: user.name || "You", region: "Mumbai", score: score, focus: "Multi-skill" },
+      { name: "Noah", region: "London", score: 430, focus: "Support" },
+      { name: "Lina", region: "Dubai", score: 400, focus: "Data" }
+    ].sort((a,b)=> b.score - a.score);
+
+    const tbody = document.getElementById("leaderRows");
+    tbody.innerHTML = "";
+    leaderboard.forEach((p, i) => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${i+1}</td>
+        <td>${p.name}</td>
+        <td>${p.region}</td>
+        <td>${p.score}</td>
+        <td>${p.focus}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    // ---------- Refresh button ----------
+    document.getElementById("refreshBtn").addEventListener("click", () => {
+      alert("Insights refreshed (demo).");
+    });
+  </script>
+
+</body>
+</html>

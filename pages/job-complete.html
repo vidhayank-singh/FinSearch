@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>FinSearch — Job Completed</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Global CSS -->
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body class="page">
+
+  <!-- ================= NAVBAR ================= -->
+  <header class="navbar">
+    <div class="container inner">
+      <div class="brand">
+        <div class="brand-mark"></div>
+        <span>FinSearch</span>
+      </div>
+      <div class="nav-actions">
+        <a class="btn ghost" href="../index.html">Home</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= CONTENT ================= -->
+  <section class="section">
+    <div class="container" style="max-width: 900px;">
+
+      <!-- Congrat Banner -->
+      <div class="card glow">
+        <span class="badge">Confirmed Completion</span>
+        <h1 class="h2 mt-16" id="bannerTitle">Congratulations!</h1>
+        <p class="p mt-10">
+          Your work has been marked as completed. This outcome updates your profile with verified performance signals.
+        </p>
+      </div>
+
+      <!-- Review + Earnings -->
+      <div class="grid grid-2 mt-22">
+
+        <!-- Employer Review -->
+        <div class="card simple">
+          <h3 class="h3">Employer Review</h3>
+          <p class="p mt-16" id="reviewQuote">
+            “Great first effort. Communicated clearly and delivered on time. Would hire again.”
+          </p>
+
+          <div class="mt-22">
+            <div class="small">Rating</div>
+            <div class="row mt-10" id="stars" aria-label="rating stars" style="gap:6px;">
+              <!-- Stars inserted by JS -->
+            </div>
+            <p class="small mt-10" id="ratingText">4.5 / 5.0</p>
+          </div>
+        </div>
+
+        <!-- Earnings -->
+        <div class="card simple">
+          <h3 class="h3">Earnings</h3>
+          <p class="small mt-16">Verified payout</p>
+          <div class="hero-title" style="font-size: 44px; margin-top: 8px;">
+            <span style="color:#00FF87" id="earned">$15</span>
+          </div>
+          <p class="p mt-10">
+            This amount will be used to generate a simple personal finance action plan.
+          </p>
+
+          <div class="divider"></div>
+
+          <div class="field">
+            <label class="label">Optional: Change payout for demo (USD)</label>
+            <input class="input" type="number" id="earnedInput" min="1" placeholder="15" />
+            <button class="btn mt-16" id="applyEarned">Apply</button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Finance Advice -->
+      <div class="card glow mt-22">
+        <h3 class="h3">Finance Guidance — Next Best Actions</h3>
+        <p class="p mt-10">
+          FinSearch turns every earning into a learning moment. Here is a balanced plan based on your payout.
+        </p>
+
+        <div class="grid grid-3 mt-22" id="adviceGrid">
+          <!-- Advice cards inserted by JS -->
+        </div>
+
+        <div class="row mt-22">
+          <a class="btn primary" href="score-reveal.html">View My FinSearch Score →</a>
+          <a class="btn ghost" href="job-match.html">Back to Opportunities</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <script>
+    // Load user
+    const user = JSON.parse(localStorage.getItem("finsearchUser")) || { name: "Candidate" };
+
+    // Set banner name
+    document.getElementById("bannerTitle").innerText = `Congratulations, ${user.name}!`;
+
+    // Default payout
+    let payout = 15;
+
+    // Star rating animation (4.5)
+    const starsEl = document.getElementById("stars");
+    const ratingText = document.getElementById("ratingText");
+    const targetStars = 4.5;
+
+    function renderStars(value){
+      starsEl.innerHTML = "";
+      const full = Math.floor(value);
+      const half = value % 1 !== 0;
+
+      for(let i=0;i<full;i++){
+        const s = document.createElement("span");
+        s.textContent = "★";
+        s.style.color = "#FFD700";
+        s.style.fontSize = "20px";
+        starsEl.appendChild(s);
+      }
+
+      if(half){
+        const s = document.createElement("span");
+        s.textContent = "⯪"; // simple half-star look
+        s.style.color = "#FFD700";
+        s.style.fontSize = "18px";
+        starsEl.appendChild(s);
+      }
+
+      const remaining = 5 - full - (half ? 1 : 0);
+      for(let i=0;i<remaining;i++){
+        const s = document.createElement("span");
+        s.textContent = "☆";
+        s.style.color = "#444";
+        s.style.fontSize = "20px";
+        starsEl.appendChild(s);
+      }
+
+      ratingText.textContent = `${value.toFixed(1)} / 5.0`;
+    }
+
+    // Animate stars one-by-one
+    let shown = 0;
+    const interval = setInterval(() => {
+      shown += 1;
+      if (shown <= 4) renderStars(shown);
+      if (shown === 5) { renderStars(targetStars); clearInterval(interval); }
+    }, 220);
+
+    // Finance advice calculation (simple split)
+    function buildAdvice(amount){
+      const save = Math.round(amount * 0.55);
+      const invest = Math.round(amount * 0.25);
+      const spend = Math.max(0, amount - save - invest);
+
+      return [
+        { icon: "🟢", title: `Save $${save}`, body: "Start a safety buffer. Small consistency builds stability." },
+        { icon: "🔵", title: `Grow $${invest}`, body: "Consider a micro-savings or low-risk learning investment." },
+        { icon: "🟡", title: `Spend $${spend}`, body: "Use a small portion for essentials or tools that improve work." }
+      ];
+    }
+
+    function renderAdvice(amount){
+      const grid = document.getElementById("adviceGrid");
+      grid.innerHTML = "";
+      const items = buildAdvice(amount);
+
+      items.forEach(item => {
+        const card = document.createElement("div");
+        card.className = "card simple anim-fadeUp";
+        card.innerHTML = `
+          <div class="row" style="gap:10px;">
+            <div style="font-size:22px">${item.icon}</div>
+            <div class="h3" style="font-size:18px">${item.title}</div>
+          </div>
+          <p class="p mt-16">${item.body}</p>
+        `;
+        grid.appendChild(card);
+      });
+
+      // Store payout for later pages (score + dashboard)
+      localStorage.setItem("finsearchPayout", String(amount));
+    }
+
+    // Initial render
+    document.getElementById("earned").textContent = `$${payout}`;
+    renderAdvice(payout);
+
+    // Optional apply payout
+    document.getElementById("applyEarned").addEventListener("click", () => {
+      const v = parseInt(document.getElementById("earnedInput").value, 10);
+      if (!v || v < 1) {
+        alert("Enter a valid payout amount (minimum 1).");
+        return;
+      }
+      payout = v;
+      document.getElementById("earned").textContent = `$${payout}`;
+      renderAdvice(payout);
+    });
+  </script>
+
+</body>
+</html>
